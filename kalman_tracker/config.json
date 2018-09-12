@@ -1,0 +1,6 @@
+{
+  "tracker" : {
+    "max_age":3,
+    "min_hits":3
+  }
+}

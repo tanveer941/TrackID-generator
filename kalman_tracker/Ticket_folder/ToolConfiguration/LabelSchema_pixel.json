@@ -1,0 +1,730 @@
+{
+    "LabelConfig": {
+        "InformationElements": [
+            {
+                "Attributes":
+                    [
+                    {
+                        "GEN_Country":
+                        {
+                            "Type": "Value",
+                            "Optional": "Yes",
+                            "DataType": "Value",
+                            "Values": ["None","VIRGIN ISLANDS_US","SAMOA","LIBYAN_ARAB_JAMAHIRIYA","HEARD_ISLAND","MOLDOVA","MACAO","USA","REUNION","SOUTH_GEORGIA","SOMALIA","COOK_ISLANDS","ANGUILLA","KUWAIT","LATVIA","HAITI","LESOTHO","MALAYSIA","SEYCHELLES","Netherlands","AUSTRALIA","UGANDA","CHAD","ETHIOPIA","GEORGIA","ANGOLA","NEW_ZEALAND","IRELAND","GRENADA","Slovenia","BULGARIA","UNITED_ARAB_EMIRATES","WESTERN_SAHARA","CHRISTMAS_ISLAND","WALLIS_AND_FUTUNA","VANUATU","TUNISIA","OMAN","VENEZUELA","MAURITANIA","TAIWAN","MONACO","Ireland","BURUNDI","COCOS_KEELING_ISLANDS","Croatia","PAKISTAN","MALDIVES","MEXICO","TURKS_AND_CAICOS_ISLANDS","PUERTO_RICO","Portugal","ALBANIA","IRAN","NAURU","INDIA","YEMEN","EQUATORIAL_GUINEA","BOLIVIA_PLURINATIONAL","FALKLAND_ISLANDS","GUADELOUPE","CONGO","BRUNEI_DARUSSALAM","RUSSIAN_FEDERATION","Norwegen","FIJI","AMERICAN_SAMOA","GABON","KYRGYZSTAN","SAUDI_ARABIA","CURACAO","LIBERIA","GUATEMALA","BRAZIL","CAMEROON","CHILE","COTE_DIVOIRE","GUINEA_BISSAU","KOREA","NIGERIA","PITCAIRN","SAINT_MARTIN","GUAM","Luxemburg","MAYOTTE","Czech_Republic","MONTSERRAT","SINT_MAARTEN","BHUTAN","Hungary","QATAR","ANTARCTICA","SVALBARD_AND_JAN_MAYEN","INDONESIA","ZAMBIA","TANZANIA","Slovakia","THAILAND","GUYANA","JORDAN","FRENCH_SOUTHERN_TERRITORIES","ANTIGUA_AND_BARBUDA","ARUBA","DJIBOUTI","IRAQ","KAZAKHSTAN","Poland","PALESTINIAN_TERRITORY","SWAZILAND","SAN_MARINO","Germany","PAPUA_NEW_GUINEA","SAO_TOME_AND_PRINCIPE","GAMBIA","EGYPT","NIUE","MOROCCO","AFGHANISTAN","ZIMBABWE","MONGOLIA","LAO_PEOPLES","MARSHALL_ISLANDS","MADAGASCAR","Canada","SAINT_HELENA","COLOMBIA","BAHRAIN","GIBRALTAR","VIRGIN ISLANDS_BRITISH","BARBADOS","UNITED_STATES_MINOR_OUTLYING_ISLANDS","TUVALU","BOSNIA_HERZEGOVINA","UKRAINE","Italy","Great_Britain","Spain","FAROE_ISLANDS","NIGER","CAPE_VERDE","CENTRAL_AFRICAN_REPUBLIC","SOUTH_AFRICA","SURINAME","TURKEY","BOTSWANA","BENIN","PARAGUAY","ALGERIA","ALAND_ISLANDS","KIRIBATI","MARTINIQUE","NEPAL","BANGLADESH","EL_SALVADOR","HONDURAS","JAMAICA","NEW_CALEDONIA","SUDAN","TRINIDAD_AND_TOBAGO","SOLOMON_ISLANDS","SIERRA_LEONE","TAJIKISTAN","HOLY_SEE","SYRIAN_ARAB","TONGA","RWANDA","TURKMENISTAN","TOGO","TOKELAU","SINGAPORE","Belgium","FRENCH_POLYNESIA","SAINT_VINCENT_AND_THE_GRENADINES","MALTA","ANDORRA","ESTONIA","JERSEY","MALI","NAMIBIA","VIET_NAM","GUINEA","GUERNSEY","COMOROS","COSTA_RICA","BONAIRE_SAINT_EUSTATIUS_AND_SABA","SAINT_BARTHELEMY","CHINA","GHANA","SAINT_KITTS_AND_NEVIS","ISLE_OF_MAN","LEBANON","MALAWI","PERU","SENEGAL","ROMANIA","UZBEKISTAN","AZERBAIJAN","TIMOR_LESTE","Korea_Democratic_Peoples_Republic_Of","BELIZE","ARMENIA","BURKINA_FASO","BERMUDA","BAHAMAS","BOUVET_ISLAND","CONGO_THE DEMOCRATIC_REPUBLIC","CUBA","CYPRUS","ECUADOR","ERITREA","FINLAND","MICRONESIA","GREENLAND","GREECE","ISRAEL","ARGENTINA","BELARUS","DOMINICA","DOMINICAN_REPUBLIC","FRENCH_GUIANA","HONG_KONG","BRITISH_INDIAN_OCEAN_TERRITORY","ICELAND","KENYA","CAMBODIA","CAYMAN_ISLANDS","SAINT_LUCIA","SRI_LANKA","LITHUANIA","MONTENEGRO","MACEDONIA","MYANMAR","NORTHERN _MARIANA_ISLANDS","MAURITIUS","MOZAMBIQUE","NORFOLK_ISLAND","NICARAGUA","PANAMA","PHILIPPINES","SAINT_PIERRE_AND_MIQUELON","PALAU","SERBIA","URUGUAY","France","Austria","Swiss","Japan","Daenemark","Schweden","Liechtenstein"],
+                            "Default": ["None"]
+                        }
+                    },
+                    {
+                        "GEN_Road_Type":
+                        {
+                            "Type": "Value",
+                            "Optional": "No",
+                            "DataType": "Value",
+                            "Values": ["None","Motorway","Highway","Motorway_in_city","Country_Road","City","TestSide","Other"],
+                            "Default" : ["None"]
+                        }
+                    },
+                    {
+                        "GEN_Weather":
+                        {
+                            "Type": "Value",
+                            "Optional": "No",
+                            "DataType": "Value",
+                            "Values": ["None","Dry","Rain","Strong_Rain","Snow","Strong_Snow"],
+                            "Default" : ["None"]
+                        }
+                    },
+                    {
+                        "GEN_EGO_LANE_CHANGE":
+                        {
+                            "Type": "Value",
+                            "Optional": "Value",
+                            "DataType": "Value",
+                            "Values": ["None","true"],
+                            "Default" : ["None"]
+                        }
+                    },
+                    {
+                        "GEN_Road_Works":
+                        {
+                            "Type": "Value",
+                            "Optional": "Value",
+                            "DataType": "Value",
+                            "Values": ["None","true"],
+                            "Default" : ["None"]
+                        }
+                    },
+                    {
+                        "GEN_Tunnel":
+                        {
+                            "Type": "Value",
+                            "Optional": "Value",
+                            "DataType": "Value",
+                            "Values": ["None","true"],
+                            "Default" : ["None"]
+                        }
+                    },
+                    {
+                        "GEN_Street_Conditions":
+                        {
+                            "Type": "Value",
+                            "Optional": "Value",
+                            "DataType": "Value",
+                            "Values": ["None","Dirt_Heavy","Dirt_Light","Dry","Ice","Snow","Snow_Heavy","Snow_Light","Wet"],
+                            "Default" : ["None"]
+                        }
+                    }
+                ]
+            }
+        ], 
+        "Shapes": [
+            {
+                "Box": {
+                    "Color": [
+                        "#000000"
+                    ], 
+                    "Corner": [
+                        "Normal"
+                    ], 
+                    "Type": [
+                        "Smooth"
+                    ], 
+                    "Thickness": [
+                        2
+                    ]
+                }
+            }, 
+            {
+                "FreeDraw": {
+                    "Color": [
+                        "Green"
+                    ], 
+                    "Corner": [
+                        "Normal"
+                    ], 
+                    "Type": [
+                        "Dash"
+                    ], 
+                    "Thickness": [
+                        2
+                    ]
+                }
+            }, 
+            {
+                "Line": {
+                    "Color": [
+                        "Yellow"
+                    ], 
+                    "Type": [
+                        "Dash"
+                    ], 
+                    "Orientation": [
+                        "Horizontal"
+                    ], 
+                    "Thickness": [
+                        2
+                    ]
+                }
+            }, 
+            {
+                "Polyline": {
+                    "Color": [
+                        "Green"
+                    ], 
+                    "Corner": [
+                        "Normal"
+                    ], 
+                    "Type": [
+                        "Dash"
+                    ], 
+                    "Thickness": [
+                        2
+                    ]
+                }
+            }, 
+            {
+                "Polygon": {
+                    "Color": [
+                        "Green"
+                    ], 
+                    "Corner": [
+                        "Normal"
+                    ], 
+                    "Type": [
+                        "Dash"
+                    ], 
+                    "Thickness": [
+                        2
+                    ]
+                }
+            }
+        ], 
+        "Anno Elements": [
+            {
+                "category": "Building", 
+                "color": "#513c1f", 
+                "Attributes": [
+                   {
+                        "BuildingType":
+                        {
+						    "Type": "ComboBox",
+                            "Optional": "Yes",
+                            "Default": ["None"],
+							"Values": ["Bridge","Fence","Tunnel","House","Pole","Wall","Guardrail","Bus stop","Streetlamp","Other"]
+                        }
+                    }
+				],				
+                "Shapes": [
+                    {
+                        "Polygon": {
+                            "configParam2": "configParam2NewValue"
+                        },
+                        "Algos": [
+                            {
+                                "Algo1": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }, 
+                            {
+                                "Algo2": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }, 
+			{
+                "category": "Lane", 
+                "color": "#ead98b", 
+                "Attributes": [
+                   {
+                        "Bordertype":
+                        {
+						    "Type": "ComboBox",
+                            "Optional": "Yes",
+                            "Default": ["No Marking"],
+							"Values": ["Continuous Marking ","Dashed Marking","Dotted Marking","No Marking"]
+                        }
+                    }
+				],				
+                "Shapes": [
+                    {
+                        "Line": {
+                            "configParam2": "configParam2NewValue"
+                        }, 
+                        "Algos": [
+                            {
+                                "Algo1": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }, 
+                            {
+                                "Algo2": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }, 
+			{
+                "category": "Traffic_Sign", 
+                "color": "#ffcc00", 
+                "Attributes": [
+                   {
+                        "Traffic_relevant":
+                        {
+						    "Type": "ComboBox",
+                            "Optional": "Yes",
+                            "Default": ["Danger_Bend_Left"],
+							"Values": ["Speed_Limit_005", "Speed_Limit_010", "Speed_Limit_020", "Speed_Limit_030", "Speed_Limit_040", "Speed_Limit_050", "Speed_Limit_060", "Speed_Limit_070", "Speed_Limit_080", "Speed_Limit_090", "Speed_Limit_100", "Speed_Limit_110", "Speed_Limit_120", "Speed_Limit_130", "Speed_Limit_End_030", "Speed_Limit_End_050", "Speed_Limit_End_060", "Speed_Limit_End_070", "Speed_Limit_End_080", "Speed_Limit_End_090", "Speed_Limit_End_100", "Speed_Limit_End_120", "No_Passing_Truck", "Speed_Limit_End_030","Speed_Limit_End_050","Speed_Limit_End_060","Speed_Limit_End_070","Speed_Limit_End_080","Speed_Limit_End_090","Speed_Limit_End_100","Speed_Limit_End_120","No_Passing_End","General_End", "Danger_Cross_Road", "Danger_Road_Narrow_Both_Sides", "Danger_Traffic_Lights","Danger_Exclamation_Mark","Danger_Traffic_Jam_Right","Danger_Splippery_Road","Danger_Wind_From_Left","Danger_Snow","Danger_One_Bump","Danger_Train_Cross_Barrier"]
+                        }
+                    }
+				],				
+                "Shapes": [
+                    {
+                        "Box": {
+                            "configParam2": "configParam2NewValue"
+                        }, 
+                        "Algos": [
+                            {
+                                "Algo1": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }, 
+                            {
+                                "Algo2": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "category": "Vegetation", 
+                "color": "#c8cd7d",
+				"Attributes": [
+                   {
+                        "VegetationType":
+                        {
+						    "Type": "ComboBox",
+                            "Optional": "Yes",
+                            "Default": ["Tree"],
+							"Values": ["Bush","Other","Tree"]
+                        }
+                    }
+				],
+				"Shapes": [
+                    {
+                        "Polygon": {
+                            "configParam2": "configParam2NewValue"
+                        }, 
+                        "Algos": [
+                            {
+                                "Algo1": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }, 
+                            {
+                                "Algo2": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }, 
+			{
+                "category": "Road_signs", 
+                "color": "#4e5c5f",
+				"Attributes": [
+                   {
+                        "RoadSignsType":
+                        {
+						    "Type": "ComboBox",
+                            "Optional": "Yes",
+                            "Default": ["Speed Limits"],
+							"Values": ["Lane Marker","Other","Speed Limits","Arrows","Stop Line","Crosswalk","Not_observable"]
+                        }
+                    }
+				],	
+				"Shapes": [
+                    {
+                        "Box": {
+                            "configParam2": "configParam2NewValue"
+                        }, 
+                        "Algos": [
+                            {
+                                "Algo1": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }, 
+                            {
+                                "Algo2": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },   
+            {
+                "category": "Vehicle", 
+                "color": "#016295",
+				"Attributes": [
+                   {
+                        "VehicleType":
+                        {
+						    "Type": "ComboBox",
+                            "Optional": "Yes",
+                            "Default": ["Car"],
+							"Values": ["Quad","Caravan","Truck","Car","Transporter","Special Vehicle","Rail Vehicle","Not_observable"]
+                        }
+                    }
+				],				
+                "Shapes": [
+                    {
+                        "Box": {
+                            "configParam2": "configParam2NewValue"
+                        }, 
+                        "Algos": [
+                            {
+                                "Algo1": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }, 
+                            {
+                                "Algo2": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "category": "Sky", 
+                "color": "#00b3ca",
+				"Attributes": [
+                   {
+                        "Type":
+                        {
+                            "Optional": "Yes",
+                            "Default": ["Open sky"],
+							"Values": ["Open sky","Sun"]
+                        }
+                    }
+				],					
+                "Shapes": [
+                    {
+                        "Polygon": {
+                            "configParam2": "configParam2NewValue"
+                        }, 
+                        "Algos": [
+                            {
+                                "Algo1": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }, 
+                            {
+                                "Algo2": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },			
+            {
+                "category": "Traffic_Light", 
+                "color": "#ad5d5d", 
+				"Attributes": [
+                   {
+                        "TrafficLightType":
+                        {
+						    "Type": "ComboBox",
+                            "Optional": "Yes",
+                            "Default": ["Off"],
+							"Values": ["Red","Green","Yellow","Red/Yellow","Green/Yellow","Off","Other"]
+                        }
+                    }
+				],		
+                "Shapes": [
+                    {
+                        "Box": {
+                            "configParam2": "configParam2NewValue"
+                        }, 
+                        "Algos": [
+                            {
+                                "Algo1": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }, 
+                            {
+                                "Algo2": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "category": "Road", 
+                "color": "#44225e", 
+				"Attributes": [
+                   {
+                        "RoadType":
+                        {
+						    "Type": "ComboBox",
+                            "Optional": "Yes",
+                            "Default": ["Bicyclepath"],
+							"Values": ["Pothole","Manhole","Bicyclepath","Cobblestone","Rails"]
+                        }
+                    }
+				],		
+                "Shapes": [
+                    {
+                        "Polygon": {
+                            "configParam2": "configParam2NewValue"
+                        }, 
+                        "Algos": [
+                            {
+                                "Algo1": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }, 
+                            {
+                                "Algo2": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "category": "Animals", 
+                "color": "#ba1a62", 
+				"Attributes": [
+                   {
+                        "AnimalType":
+                        {
+						    "Type": "ComboBox",
+                            "Optional": "Yes",
+                            "Default": ["medium"],
+							"Values": ["Large","Small","medium"]
+                        }
+                    }
+				],		
+                "Shapes": [
+                    {
+                        "Box": {
+                            "configParam2": "configParam2NewValue"
+                        }, 
+                        "Algos": [
+                            {
+                                "Algo1": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }, 
+                            {
+                                "Algo2": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "Polygon": {
+                            "configParam2": "configParam2NewValue"
+                        }, 
+                        "Algos": [
+                            {
+                                "Algo1": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }, 
+                            {
+                                "Algo2": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }
+                        ]
+                    }					
+                ]
+            }, 
+			{
+                "category": "Other", 
+                "color": "Black", 
+                "Shapes": [
+                    {
+                        "Box": {
+                            "configParam2": "configParam2NewValue"
+                        }, 
+                        "Algos": [
+                            {
+                                "Algo1": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }, 
+                            {
+                                "Algo2": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "category": "Sidewalk", 
+                "color": "#e4633b", 
+                "Shapes": [
+                    {
+                        "Polygon": {
+                            "configParam2": "configParam2NewValue"
+                        }, 
+                        "Algos": [
+                            {
+                                "Algo1": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }, 
+                            {
+                                "Algo2": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "category": "Landscape", 
+                "color": "#006e51", 
+                "Shapes": [
+                    {
+                        "Polygon": {
+                            "configParam2": "configParam2NewValue"
+                        }, 
+                        "Algos": [
+                            {
+                                "Algo1": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }, 
+                            {
+                                "Algo2": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }, 
+            {
+                "category": "ParkingSlot", 
+                "color": "#bb1e39", 
+                "Shapes": [
+                    {
+                        "Polyline": {
+                            "configParam2": "configParam2NewValue"
+                        }, 
+                        "Algos": [
+                            {
+                                "Algo1": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }, 
+                            {
+                                "Algo2": {
+                                    "configParam2": [
+                                        "configParam2NewValue"
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ], 
+        "version": "1.0.0", 
+        "Algorithms":
+            [
+            {
+                "SRAlgo":
+                {
+                    "Request": ["SR_Request"],
+                    "Response": ["Pixel_Response"]
+                },
+                "supportedShape": "pixellabel",
+                "tip":"when to use algo"
+            }
+        ], 
+        "Projects": [
+            {
+                "Recording": [
+                    {
+                        "Recording1": {
+                            "Completed": "Yes/No", 
+                            "Type": "RRec", 
+                            "Channel": "ImageViewer"
+                        }
+                    }, 
+                    {
+                        "Recording1": {
+                            "Completed": "Yes/No", 
+                            "Type": "RRec", 
+                            "Channel": "Signal"
+                        }
+                    }
+                ], 
+                "SequenceLabels": [
+                    {
+                        "InfoElements": [
+                            "Info1", 
+                            "Info2"
+                        ], 
+                        "AnnoElements": [
+                            "Anno1", 
+                            "Anno2"
+                        ]
+                    }
+                ], 
+                "FrameLabels": [
+                    {
+                        "InfoElements": [
+                            "Info1", 
+                            "Info2"
+                        ], 
+                        "AnnoElements": [
+                            "Anno1", 
+                            "Anno2"
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+}
