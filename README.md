@@ -30,6 +30,7 @@ It makes use of Deep reinforcement learning. It has a pre-trained model with the
 	as defined in the configuration file.
 5. Fine tuning takes a considerable amount of time(~20-30seconds).
 6. The intermediate frames takes approx. a second to produce the bounding box.
+7. Link to the original github repository is https://github.com/ildoonet/tf-adnet-tracking 
 
 ## How to use?
 - Run the file **lt5_dl_tracker.py**
