@@ -19,6 +19,7 @@ from PIL import Image
 from PIL import ImageDraw
 from os import listdir, getcwd
 from os.path import isfile, join
+import sys
 
 CONFIG_JSON = "config.json"
 
@@ -34,6 +35,7 @@ class GenerateTrackIDsForDetector(object):
             exit(0)
         with open(CONFIG_JSON) as conf_handle:
             config_json= json.load(conf_handle)
+        self.retain_original_coordinates = True if config_json['tracker']["retain_original_coordinates"] == "True" else False
         parameters = []
         self.s_tracker = st.SortTracker(parameters, max_age=config_json['tracker']['max_age'],
                                         min_hits=config_json['tracker']['min_hits'])
@@ -80,9 +82,9 @@ class GenerateTrackIDsForDetector(object):
             # Read the image to be fed to the tracker
             img_array = self.get_image_for_this_frame(img_names_lst=img_flnames_lst, timestamp=tm_stamp)
             tracks = self.s_tracker.improveBBoxes(img_array, detection_rois, frame_num)
-            self.display_tracked_objects(img_array, tracks)
+            # self.display_tracked_objects(img_array, tracks)
 
-            self.update_trackids_in_json(tm_stamp, tracks, ech_frame)
+            self.update_trackids_in_json(tm_stamp, tracks, ech_frame, detection_rois)
 
         # Write into JSON file
         with open(OUTPUT_JSON_TRACKED, 'w') as outfile:
@@ -93,18 +95,18 @@ class GenerateTrackIDsForDetector(object):
         for k, BBoxList in tracks.__dict__.items():
             # Track IDs are arranged in descending order. Reverse the order
             for ech_BBoxObj in BBoxList[::-1]:
-                trckd_ordinate = ech_BBoxObj.__dict__
+                trckd_ordinate = ech_BBoxObj.json_content()
                 # print("trckd_ordinate :> ", trckd_ordinate)
                 frame_trackID_det_lst.append(trckd_ordinate)
-        # print("frame_trackID_det_lst >> ", frame_trackID_det_lst)
+        # print("frame_trackID_det_lst :: ", frame_trackID_det_lst)
         for ech_track_details in frame_trackID_det_lst:
             image_rgb = Image.fromarray(np.uint8(img_array)).convert('RGB')
             # image_rgb = img_array
             draw = ImageDraw.Draw(image_rgb)
-            (left, right, top, bottom) = [ech_track_details['_x1'],
-            ech_track_details['_x2'],
-            ech_track_details['_y1'],
-            ech_track_details['_y2']]
+            (left, right, top, bottom) = [ech_track_details['x1'],
+            ech_track_details['x2'],
+            ech_track_details['y1'],
+            ech_track_details['y2']]
             draw.line([(left, top), (left, bottom), (right, bottom),
                        (right, top), (left, top)], width=2, fill='red')
             draw.text((int(left), int(top)), str(ech_track_details['track_id']), font=None)
@@ -117,27 +119,44 @@ class GenerateTrackIDsForDetector(object):
         cv2.destroyAllWindows()
 
 
-    def update_trackids_in_json(self, tm_stamp, tracks, ech_frame_json_dict):
+    def update_trackids_in_json(self, tm_stamp, tracks, ech_frame_json_dict, original_rois_lst):
 
         # Validate the timeframe so that track ids are updated for correct timestamp
         if tm_stamp == ech_frame_json_dict['TimeStamp']:
+            # print(">>=", ech_frame_json_dict)
 
             # Read the generated track IDs and the update the existing JSON/ Create a new JSON
             frame_trackID_det_lst = []
             for k, BBoxList in tracks.__dict__.items():
                 # Track IDs are arranged in descending order. Reverse the order
                 for ech_BBoxObj in BBoxList[::-1]:
-                    trckd_ordinate = ech_BBoxObj.__dict__
+                    trckd_ordinate = ech_BBoxObj.json_content()
                     # print("trckd_ordinate :> ", trckd_ordinate)
-                    frame_trackID_det_lst.append(trckd_ordinate)
+                    if not self.retain_original_coordinates:
+                        frame_trackID_det_lst.append(trckd_ordinate)
+                    else:
+                        # Compute the iou for each tracked box with the original box supplied with the frame
+                        # If the iou is gteater than 0.85 or 0.9 then assign the coordinates with the trackID
+                        for evry_orig_BBox_obj in original_rois_lst:
+                            orig_box_dict = evry_orig_BBox_obj.json_content()
+                            # print("orig_box_dict>:", orig_box_dict)
+                            iou_num = evry_orig_BBox_obj.iou(ech_BBoxObj)
+                            # print("iou::", iou_num)
+                            if iou_num > 0.85:
+                                orig_box_dict['track_id'] = trckd_ordinate['track_id']
+                                frame_trackID_det_lst.append(orig_box_dict)
+            # original_rois_lst = [evry_orig_BBox_obj.json_content() for evry_orig_BBox_obj in original_rois_lst]
+            # print("original_rois_lst::", original_rois_lst, len(original_rois_lst))
 
             # Now iterate through the frame data to only update the track IDs
             # Check if x co ordinate list is empty or not
 
-            print("frame_trackID_det_lst >> ", frame_trackID_det_lst)
+            print("frame_trackID_det_lst >> ", frame_trackID_det_lst, len(frame_trackID_det_lst))
+            print("\n")
 
             ech_frame_json_dict['FrameAnnoElements'] = []
             for ech_track_details in frame_trackID_det_lst:
+                # break
                 track_ordinate_details = {
                     "Hierarchy": 0,
                     "Trackid": ech_track_details['track_id'],
@@ -146,7 +165,7 @@ class GenerateTrackIDsForDetector(object):
                     "baseimage": "",
                     "category": ech_track_details['class_name'],
                     "combinedimage": "",
-                    "height": ech_track_details['_y2'] - ech_track_details['_y1'],
+                    "height": ech_track_details['y2'] - ech_track_details['y1'],
                     "imagedata": "",
                     "imageheight": 0,
                     "imagename": "",
@@ -160,15 +179,15 @@ class GenerateTrackIDsForDetector(object):
                         "thickness": 0,
                         "type": "Box",
                         "x": [
-                            ech_track_details['_x1'],
-                            ech_track_details['_x2']
+                            ech_track_details['x1'],
+                            ech_track_details['x2']
                         ],
                         "y": [
-                            ech_track_details['_y1'],
-                            ech_track_details['_y2']
+                            ech_track_details['y1'],
+                            ech_track_details['y2']
                         ]
                     },
-                    "width": ech_track_details['_x2'] - ech_track_details['_x1']
+                    "width": ech_track_details['x2'] - ech_track_details['x1']
 
                 }
                 ech_frame_json_dict['FrameAnnoElements'].append(track_ordinate_details)
@@ -208,18 +227,16 @@ if __name__ == '__main__':
     LABELED_OUTPUT_JSON = r'D:\Work\2018\code\LT5G\ticket_folders\SR_BatchTicket_Latest\LabeledData\SR_BatchTicket_Latest_LabelData.json'
     IMAGE_FOLDER_PATH = r'D:\Work\2018\code\LT5G\ticket_folders\SR_BatchTicket_Latest\Images'
 
-    LABELED_OUTPUT_JSON = getcwd() + r'\Ticket_folder\LabeledData\Ticket_folder_LabelData.json'
+    LABELED_OUTPUT_JSON = getcwd() + r'\Ticket_folder\LabeledData\Ticket_folder_LabelData_d.json'
     IMAGE_FOLDER_PATH = getcwd() + r'\Ticket_folder\Images'
 
-    OUTPUT_JSON_TRACKED = r'LabeledData_tracked.json'
+    OUTPUT_JSON_TRACKED = r'Ticket_folder_LabelData.json'
 
     print("Argument 1 : LABELED_OUTPUT_JSON file path ex: D:\SR_BatchTicket_Latest\LabeledData\SR_BatchTicket_Latest_LabelData.json")
     print("Argument 2 : IMAGE_FOLDER_PATH image folder ex: D:\SR_BatchTicket_Latest\Images")
     print("Argument 3 : OUTPUT_JSON_TRACKED file name ex: D:\SR_BatchTicket_Latest_LabelData.json")
-    # LABELED_OUTPUT_JSON = sys.argv[1]
-    # IMAGE_FOLDER_PATH = sys.argv[2]
-    # OUTPUT_JSON_TRACKED = sys.argv[3]
-
-    # change22 with change1
+    LABELED_OUTPUT_JSON = sys.argv[1]
+    IMAGE_FOLDER_PATH = sys.argv[2]
+    OUTPUT_JSON_TRACKED = sys.argv[3]
 
     GenerateTrackIDsForDetector()

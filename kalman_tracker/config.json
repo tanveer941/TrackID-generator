@@ -1,6 +1,7 @@
 {
   "tracker" : {
     "max_age":3,
-    "min_hits":3
+    "min_hits":3,
+    "retain_original_coordinates": "False"
   }
 }
