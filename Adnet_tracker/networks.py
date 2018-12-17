@@ -5,6 +5,8 @@ import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import hdf5storage
 import logging
+import sys
+import os
 
 logger = logging.getLogger('networks')
 logger.setLevel(logging.DEBUG)
@@ -14,7 +16,13 @@ formatter = logging.Formatter('[%(asctime)s] [%(name)s] [%(levelname)s] %(messag
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-
+if getattr(sys, 'frozen', False):
+    application_path = os.path.dirname(sys.executable)
+elif __file__:
+    application_path = os.path.dirname(__file__)
+# path='./models/adnet-original/net_rl_weights.mat'
+model_path = os.path.join(application_path, 'models/adnet-original/net_rl_weights.mat')
+print("model_path ::", model_path)
 class ADNetwork:
     """
     input : 112 x 112 x 3, RGB
@@ -83,7 +91,8 @@ class ADNetwork:
         self.weighted_grads_op1 = None
         self.weighted_grads_op2 = None
 
-    def read_original_weights(self, tf_session, path='./models/adnet-original/net_rl_weights.mat'):
+
+    def read_original_weights(self, tf_session, path=model_path):
         """
         original mat file contains
         I converted 'net_rl.mat' file to 'net_rl_weights.mat' saving only weights in v7.3 format.

@@ -17,18 +17,33 @@ import commons
 from boundingbox import BoundingBox, Coordinate
 from configs import ADNetConf
 from networks import ADNetwork
-
+# os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 TOPICS_JSON = 'topics.json'
+CONFIG_YAML = 'conf/repo.yaml'
+BEXIT = True
+ALGO_READINESS = True
 
 DISPLAY_IMAGE_WITH_GTBOX = False
+
+if getattr(sys, 'frozen', False):
+    application_path = os.path.dirname(sys.executable)
+elif __file__:
+    application_path = os.path.dirname(__file__)
+print("application_path ::", application_path)
+topics_json_path = os.path.join(application_path, TOPICS_JSON)
+conf_yaml_path = os.path.join(application_path, CONFIG_YAML)
+print("conf_yaml_path ::", conf_yaml_path)
 
 class AdNetTracker(object):
     MAX_BATCHSIZE = 512
     RUN_COUNTER = 0
-    def __init__(self):
+    def __init__(self, tracker_request, tracker_response):
 
-        # Tracker initializers
-        ADNetConf.get('./conf/repo.yaml')
+        # Topic names
+        self.tracker_request = tracker_request
+        self.tracker_response = tracker_response
+        # Tracker initializers  './conf/repo.yaml'
+        ADNetConf.get(conf_yaml_path)
         self.tensor_input = tf.placeholder(tf.float32, shape=(None, 112, 112, 3), name='patch')
         self.tensor_action_history = tf.placeholder(tf.float32, shape=(None, 1, 1, 110), name='action_history')
         self.tensor_lb_action = tf.placeholder(tf.int32, shape=(None,), name='lb_action')
@@ -62,7 +77,7 @@ class AdNetTracker(object):
         # Initialize eCAL
         ecal.initialize(sys.argv, "object tracking")
         # Read the JSON files
-        with open(TOPICS_JSON) as data_file:
+        with open(topics_json_path) as data_file:
             self.json_data = json.load(data_file)
         # Define the callbacks for publisher subscriber
         self.initialize_subscr_topics()
@@ -71,18 +86,20 @@ class AdNetTracker(object):
         # The callbacks will redirect to the tracker function and publish predicted ROI
         self.define_subscr_callbacks()
 
-
     def __del__(self):
         self.persistent_sess.close()
 
     def initialize_subscr_topics(self):
         # Initialize all the subscriber topics
-        self.lt5_img_subscr_obj = ecal.subscriber(self.json_data['image_request'])
-        # self.lt5_finl_subscr_obj = ecal.subscriber(self.json_data['algo_end_response'])
+        # self.lt5_img_subscr_obj = ecal.subscriber(self.json_data['image_request'])
+        self.lt5_img_subscr_obj = ecal.subscriber(self.tracker_request)
+        self.lt5_finl_subscr_obj = ecal.subscriber(self.json_data['algo_end_response'])
 
     def initialize_publsr_topics(self):
         # Initialize all the publisher topics
-        self.lt5_track_publr_obj = ecal.publisher(self.json_data['image_response'])
+        # self.lt5_track_publr_obj = ecal.publisher(self.json_data['image_response'])
+        self.lt5_track_publr_obj = ecal.publisher(self.tracker_response)
+        self.lt5_algo_publr_obj = ecal.publisher(self.json_data['algo_begin_response'])
 
     def display_untracked_objs_img(self, decoded_img_arr, BBox_assorted_dict):
 
@@ -392,7 +409,7 @@ class AdNetTracker(object):
             print("trackid>>", trackid)
             curr_bbox = gt_box
             self.imgwh = Coordinate.get_imgwh(decoded_img_arr)
-            # print("self.imgwh >>", self.imgwh)
+            print("self.imgwh >>", self.imgwh)
             if AdNetTracker.RUN_COUNTER == 0 or manually_corrected:
                 self.initial_finetune(decoded_img_arr, gt_box)
             AdNetTracker.RUN_COUNTER += 1
@@ -419,6 +436,9 @@ class AdNetTracker(object):
                 # print("pred boxes:", bbox_obj.wh.x, bbox_obj.wh.y)
                 attrib_typ_obj = lbl_response_obj.NextAttr.add()
                 attrib_typ_obj.trackID = ech_trk_id
+                attrib_typ_obj.hasUserCorrected = 0
+                attrib_typ_obj.trackername = self.json_data["tracker"]
+                print("publish tracker name ::", attrib_typ_obj.trackername)
                 # bbox_obj in format x,y,w,h
                 xmin = bbox_obj.xy.x
                 ymin = bbox_obj.xy.y
@@ -448,6 +468,8 @@ class AdNetTracker(object):
 
 
     def predict_tracker_result(self, topic_name, msg, time):
+        global ALGO_READINESS
+        ALGO_READINESS = False
         lbl_request_obj = AlgoInterface_pb2.LabelRequest()
         if msg is not None:
             lbl_request_obj.ParseFromString(msg)
@@ -457,31 +479,35 @@ class AdNetTracker(object):
             for evry_attrib in lbl_request_obj.CurrentAttr:
                 trackid = evry_attrib.trackID
                 print("\ntrackid ::", trackid)
-                # If the variable is zero then it was not manually corrected, if more than zero then it was corrected
-                if evry_attrib.hasUserCorrected > 0:
-                    manually_corrected = True
-                else:
-                    manually_corrected = False
-                print("user corrected::", manually_corrected)
-                # BBox in list of format [xmin, ymin, xmax, ymax]
-                box_lst = []
-                for evry_ordinate_set in evry_attrib.ROI:
-                    x_ordinate = evry_ordinate_set.X
-                    box_lst.append(x_ordinate)
-                    y_ordinate = evry_ordinate_set.Y
-                    box_lst.append(y_ordinate)
-                    # print("ordinate>>", x_ordinate, y_ordinate)
-                # print("box_lst ::", box_lst)
-                # BBox_assorted_dict[trackid] = box_lst
+                if evry_attrib.trackername == self.json_data["tracker"]:
+                    # If the variable is zero then it was not manually corrected, if more than zero then it was corrected
+                    if evry_attrib.hasUserCorrected > 0:
+                        manually_corrected = True
+                    else:
+                        manually_corrected = False
+                    print("user corrected::", manually_corrected)
+                    # BBox in list of format [xmin, ymin, xmax, ymax]
+                    box_lst = []
+                    for evry_ordinate_set in evry_attrib.ROI:
+                        x_ordinate = evry_ordinate_set.X
+                        box_lst.append(x_ordinate)
+                        y_ordinate = evry_ordinate_set.Y
+                        box_lst.append(y_ordinate)
+                        # print("ordinate>>", x_ordinate, y_ordinate)
+                    # print("box_lst ::", box_lst)
+                    # BBox_assorted_dict[trackid] = box_lst
 
-                box_ordinate_lst = [box_lst[0], box_lst[1], box_lst[2], box_lst[5]]
-                BBox_assorted_dict[trackid] = box_ordinate_lst
+                    box_ordinate_lst = [box_lst[0], box_lst[1], box_lst[2], box_lst[5]]
+                    BBox_assorted_dict[trackid] = box_ordinate_lst
+                else:
+                    print("Tracker name is " + self.json_data["tracker"])
+                    print("But sending in " + evry_attrib.trackername)
             print("BBox_assorted_dict ::", BBox_assorted_dict)
             self.grnd_truth_dict = BBox_assorted_dict
             # Display the recieved image with bounding boxes
             # Decode the image here
             img_np_arr = np.fromstring(image_data, np.uint8)
-            # print("img_np_arr :", img_np_arr)
+            print("img_np_arr :", img_np_arr)
             decoded_img_arr = cv2.imdecode(img_np_arr, cv2.IMREAD_UNCHANGED)
             # cv2.imwrite('color_img.jpg', decoded_img_arr)
             # print("display_untracked_objs_img>>", decoded_img_arr)
@@ -490,24 +516,46 @@ class AdNetTracker(object):
             multi_track_bbox_dict = self.run_tracker(decoded_img_arr, BBox_assorted_dict, manually_corrected)
             self.publish_tracked_data(multi_track_bbox_dict)
 
+    def abort_algo(self, topic_name, msg, time):
+
+        if topic_name == self.json_data['algo_end_response']:
+            global BEXIT
+            BEXIT = False
+
+    def inform_tracker_ready(self):
+        # Inform model is loaded
+        # time.sleep(2)
+
+        lbl_response_obj = AlgoInterface_pb2.AlgoState()
+        lbl_response_obj.isReady = True
+        self.lt5_algo_publr_obj.send(lbl_response_obj.SerializeToString())
 
     def define_subscr_callbacks(self):
 
         # For Image data
         self.lt5_img_subscr_obj.set_callback(self.predict_tracker_result)
-        # self.lt5_finl_subscr_obj.set_callback(self.abort_algo)
-        while ecal.ok():
+        self.lt5_finl_subscr_obj.set_callback(self.abort_algo)
+        while ecal.ok() and BEXIT:
             # print("#########################", BEXIT)
             time.sleep(0.1)
-
-
+            if ALGO_READINESS:
+                self.inform_tracker_ready()
 
 if __name__ == '__main__':
-    AdNetTracker()
+
+    tracker_request = "SR_Request"
+    tracker_response = "SR_Response"
+
+    # tracker_request = sys.argv[1]
+    # tracker_response = sys.argv[2]
+
+    AdNetTracker(tracker_request, tracker_response)
 
 # C:\Users\uidr8549\Envs\tracker-tf-cpu-py35\Scripts\pyinstaller.exe lt5_dl_tracker.py
 # C:\Users\uidr8549\AppData\Local\Continuum\Anaconda3\Scripts\pyinstaller.exe lt5_dl_tracker.py
 # C:\Users\uidr8549\AppData\Local\Continuum\Anaconda3\Scripts\pyinstaller.exe --onefile lt5_dl_tracker.py --add-data _ecal_py_3_5_x64.pyd;.
 # _ecal_py_3_5_x64.pyd conf models topics.json - copy into the dist folder
+
+# C:\Users\uidr8549\AppData\Local\Continuum\Anaconda3\python.exe lt5_dl_tracker.py SR_Request SR_Response
 
 

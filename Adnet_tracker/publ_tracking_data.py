@@ -5,6 +5,7 @@ import sys
 import AlgoInterface_pb2
 import time
 import cv2
+from PIL import Image
 
 
 # @timeit
@@ -47,6 +48,7 @@ def publ_signal_names():
         # Assign the trackid here
         attrib_typ_obj = label_req_obj.CurrentAttr.add()
         attrib_typ_obj.trackID = evy_img_trkid
+        attrib_typ_obj.trackername = "ADNet"
         # Loop in to send across the coordinates
         roi_min_obj = attrib_typ_obj.ROI.add()
         roi_min_obj.X = xmin
