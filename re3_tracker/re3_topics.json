@@ -1,0 +1,7 @@
+{
+  "image_request":"SR_Request",
+  "image_response":"SR_Response",
+  "algo_begin_response":"Response_AlgoReady",
+  "algo_end_response": "Finalize",
+  "tracker":"ADNet"
+}

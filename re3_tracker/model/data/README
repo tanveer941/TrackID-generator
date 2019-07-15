@@ -1,0 +1,24 @@
+This is a training dataset of 210 images used in the paper:
+
+M. Andriluka, S. Roth, B. Schiele. People-Tracking-by-Detection and
+People-Detection-by-Tracking. IEEE Conference on Computer Vision and
+Pattern Recognition (CVPR'08), Anchorage, USA, June 2008.
+
+The dataset consists of 210 images of sideview pedestrians for which
+positions of the person, their body parts and segmentation is
+provided.
+
+Segmentation for each pedestrian is provided in the directory "maps"
+in the form of black/white images. 
+
+The file "train-210.idl" contains list of the images along with
+annotation rectangle for each person. Each line in the file contains
+name of the image followed by the list of annotation rectangles in the
+[xmin, ymin, xmax, ymax] format.
+
+The file "train-210-annopoints.al" contains additional annotations for
+body-parts of each person. The data is stored in a simple XML
+format. For each annotation rectangle we store 11 annopoints which
+mark locations of feet, lower legs, upper legs, torso and head
+of the person.
+

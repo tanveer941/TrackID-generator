@@ -1,0 +1,6 @@
+model_checkpoint_path: "model.ckpt-260946"
+all_model_checkpoint_paths: "/local/targaryen/Documents/workspace/Re3/tf_repo/private/logs/checkpoints/model.ckpt-348500"
+all_model_checkpoint_paths: "/local/targaryen/Documents/workspace/Re3/tf_repo/private/logs/checkpoints/model.ckpt-349000"
+all_model_checkpoint_paths: "/local/targaryen/Documents/workspace/Re3/tf_repo/private/logs/checkpoints/model.ckpt-349500"
+all_model_checkpoint_paths: "/local/targaryen/Documents/workspace/Re3/tf_repo/private/logs/checkpoints/model.ckpt-350000"
+all_model_checkpoint_paths: "/local/targaryen/Documents/workspace/Re3/tf_repo/private/logs/checkpoints/model.ckpt-350063"
