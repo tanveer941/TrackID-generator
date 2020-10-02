@@ -38,5 +38,5 @@ It makes use of Deep reinforcement learning. It has a pre-trained model with the
 - The result is a publisher producing predicted bounding box
 
 ## Creating Executable 
-- C:\Users\uidr8549\AppData\Local\Continuum\Anaconda3\Scripts\pyinstaller.exe --onefile lt5_dl_tracker.py --add-data       _ecal_py_3_5_x64.pyd;.
+- \Local\Continuum\Anaconda3\Scripts\pyinstaller.exe --onefile lt5_dl_tracker.py --add-data       _ecal_py_3_5_x64.pyd;.
 - Copy the folders 'conf', 'models' and the file 'topics.json' into the place of the executable
